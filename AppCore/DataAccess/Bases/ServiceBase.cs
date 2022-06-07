@@ -11,8 +11,9 @@ namespace AppCore.DataAccess.Bases
     /// </summary>
     public abstract class ServiceBase<TEntity> : IDisposable where TEntity : RecordBase, new()
     {
+        const string _resultMessage = "Changes not saved.";
+
         private readonly DbContext _dbContext;
-        private string _resultMessage = "Changes not saved.";
 
         protected ServiceBase(DbContext dbContext)
         {
@@ -21,7 +22,7 @@ namespace AppCore.DataAccess.Bases
 
         public virtual IQueryable<TEntity> Query()
         {
-            return _dbContext.Set<TEntity>().AsQueryable();
+            return _dbContext.Set<TEntity>();
         }
 
         public virtual Result Add(TEntity entity, bool save = true)

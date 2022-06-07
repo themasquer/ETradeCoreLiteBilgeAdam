@@ -20,11 +20,25 @@
 					<span asp-validation-for="Name" class="text-danger"></span>
 				</div>
             </div>
+			<div class="row mb-3">
+                <label asp-for="Description" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<textarea asp-for="Description" class="form-control"></textarea>
+					<span asp-validation-for="Description" class="text-danger"></span>
+				</div>
+            </div>
             <div class="row mb-3">
                 <label asp-for="UnitPrice" class="col-2 col-form-label"></label>
 				<div class="col-5">
 					<input asp-for="UnitPrice" class="form-control" />
 					<span asp-validation-for="UnitPrice" class="text-danger"></span>
+				</div>
+            </div>
+			<div class="row mb-3">
+                <label asp-for="StockAmount" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="StockAmount" class="form-control" />
+					<span asp-validation-for="StockAmount" class="text-danger"></span>
 				</div>
             </div>
             <div class="row mb-3">

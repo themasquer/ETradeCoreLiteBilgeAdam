@@ -1,0 +1,43 @@
+﻿@model DataAccess.Models.UserModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+            <div class="row mb-3">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.TextBoxFor(m => m.UserName, new { @class= "form-control" })
+					@Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+                @Html.LabelFor(m => m.Password, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.PasswordFor(m => m.Password, new { @class= "form-control" })
+					@Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+				<div class="offset-2 col-5">
+					<button type="submit" class="btn btn-primary">Login</button>
+				</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

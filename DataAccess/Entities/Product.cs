@@ -8,11 +8,21 @@ namespace DataAccess.Entities
     public partial class Product : RecordBase
     {
         [Required(ErrorMessage = "{0} is required!")]
-        [StringLength(200)]
+        [MinLength(3, ErrorMessage = "{0} must have minimum {1} characters!")]
+        [MaxLength(200, ErrorMessage = "{0} must have maximum {1} characters!")]
         [DisplayName("Product Name")]
         public string? Name { get; set; }
 
+        [DisplayName("Product Description")]
+        public string? Description { get; set; }
+
         [Required(ErrorMessage = "{0} is required!")]
+        [Range(0, 1000000, ErrorMessage = "{0} must be between {1} and {2}!")]
+        [DisplayName("Stock Amount")]
+        public int? StockAmount { get; set; }
+
+        [Required(ErrorMessage = "{0} is required!")]
+        [Range(0, double.MaxValue, ErrorMessage = "{0} must be {1} or positive!")]
         [DisplayName("Unit Price")]
         public double? UnitPrice { get; set; }
 

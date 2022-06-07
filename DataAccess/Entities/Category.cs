@@ -12,6 +12,10 @@ namespace DataAccess.Entities
         [DisplayName("Category Name")]
         public string? Name { get; set; }
 
+        [DisplayName("Category Description")]
+        [StringLength(500, ErrorMessage = "{0} must be maximum {1} characters!")]
+        public string? Description { get; set; }
+
         public List<Product>? Products { get; set; }
     }
 

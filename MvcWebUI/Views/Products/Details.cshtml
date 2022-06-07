@@ -7,34 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-2">
-            @Html.DisplayNameFor(model => model.UnitPriceDisplay)
-        </dt>
-        <dd class="col-10">
-            @Html.DisplayFor(model => model.UnitPriceDisplay)
-        </dd>
-        <dt class="col-2">
-            @Html.DisplayNameFor(model => model.ExpirationDateDisplay)
-        </dt>
-        <dd class="col-10">
-            @Html.DisplayFor(model => model.ExpirationDateDisplay)
-        </dd>
-        <dt class="col-2">
-            @Html.DisplayNameFor(model => model.CategoryNameDisplay)
-        </dt>
-        <dd class="col-10">
-            @Html.DisplayFor(model => model.CategoryNameDisplay)
-        </dd>
-    </dl>
+    <partial name="_Details" model="Model" />
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;

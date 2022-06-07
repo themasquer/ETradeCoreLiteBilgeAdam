@@ -34,6 +34,8 @@ namespace DataAccess.Services
                 Id = p.Id,
                 Name = p.Name,
                 UnitPrice = p.UnitPrice,
+                Description = p.Description,
+                StockAmount = p.StockAmount,
                 UnitPriceDisplay = (p.UnitPrice ?? 0).ToString("C2", new CultureInfo("en-US"))
             });
         }

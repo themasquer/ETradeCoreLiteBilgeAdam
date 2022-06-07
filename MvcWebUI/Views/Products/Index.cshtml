@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.UnitPriceDisplay)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.StockAmount)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ExpirationDateDisplay)
             </th>
             <th>
@@ -31,10 +34,20 @@
 		@foreach (var item in Model) {
 				<tr>
 					<td>
-						@Html.DisplayFor(modelItem => item.Name)
-					</td>
+                        @if (!string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            <a href="" title="@item.Description" style="text-decoration: none;cursor: zoom-in">@item.Name</a>
+                        }
+                        else
+                        {
+                            @item.Name
+                        }
+                    </td>
 					<td>
 						@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
+					</td>
+                    <td>
+						@Html.DisplayFor(modelItem => item.StockAmount)
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
