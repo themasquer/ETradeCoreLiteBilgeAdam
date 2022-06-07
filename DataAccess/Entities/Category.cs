@@ -1,0 +1,24 @@
+﻿using AppCore.Records.Bases;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataAccess.Entities
+{
+    public partial class Category : RecordBase
+    {
+        [Required(ErrorMessage = "{0} is required!")]
+        [StringLength(100)]
+        [DisplayName("Category Name")]
+        public string? Name { get; set; }
+
+        public List<Product>? Products { get; set; }
+    }
+
+    public partial class Category
+    {
+        [NotMapped]
+        [DisplayName("Products Count")]
+        public int? ProductsCountDisplay { get; set; }
+    }
+}
