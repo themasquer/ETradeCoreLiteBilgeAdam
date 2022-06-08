@@ -4,5 +4,12 @@
 
 <div class="text-left">
     <h1 class="display-4">@AppSettings.Title</h1>
-    <p>Welcome</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p class="pusername">Welcome @User.Identity.Name</p>
+    }
+    else
+    {
+        <p>Welcome</p>
+    }
 </div>

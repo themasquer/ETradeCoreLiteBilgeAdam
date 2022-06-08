@@ -16,3 +16,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+.navusername {
+    padding-top: 8px;
+}
+
+    .navusername span {
+        color: black;
+        font-weight: bold;
+    }
+
+.pusername {
+    font-weight: bold;
+}
+
+a.adescription {
+    cursor: zoom-in;
+    color: black;
+}

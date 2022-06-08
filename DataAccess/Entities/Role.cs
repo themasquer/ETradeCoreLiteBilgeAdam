@@ -11,6 +11,6 @@ namespace DataAccess.Entities
         [DisplayName("Role Name")]
         public string? Name { get; set; }
 
-        public List<UserRole>? UserRoles { get; set; }
+        public List<User>? Users { get; set; }
     }
 }

@@ -1,11 +1,13 @@
 ﻿#nullable disable
 using DataAccess.Entities;
 using DataAccess.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace _038_ETradeCoreLiteBilgeAdam.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         // Add service injections here
@@ -19,6 +21,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Products
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Product> productList = _productService.Query().ToList();
@@ -37,6 +40,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
@@ -49,6 +53,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
@@ -64,6 +69,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Product product = _productService.Query().SingleOrDefault(p => p.Id == id);
@@ -81,6 +87,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Product product)
         {
             if (ModelState.IsValid)
@@ -96,6 +103,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Product product = _productService.Query().SingleOrDefault(p => p.Id == id);
@@ -109,6 +117,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         // POST: Products/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             _productService.Delete(p => p.Id == id);

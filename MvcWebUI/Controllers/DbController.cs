@@ -90,32 +90,26 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
             _db.Roles.Add(new Role()
             {
                 Name = "Admin",
-                UserRoles = new List<UserRole>()
+                Users = new List<User>()
                 {
-                    new UserRole()
+                    new User()
                     {
-                        User = new User()
-                        {
-                            IsActive = true,
-                            Password = "cagil",
-                            UserName = "cagil"
-                        }
+                        IsActive = true,
+                        Password = "cagil",
+                        UserName = "cagil"
                     }
                 }
             });
             _db.Roles.Add(new Role()
             {
                 Name = "User",
-                UserRoles = new List<UserRole>()
+                Users = new List<User>()
                 {
-                    new UserRole()
+                    new User()
                     {
-                        User = new User()
-                        {
-                            IsActive = true,
-                            Password = "leo",
-                            UserName = "leo"
-                        }
+                        IsActive = true,
+                        Password = "leo",
+                        UserName = "leo"
                     }
                 }
             });

@@ -6,9 +6,12 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -32,35 +35,43 @@
     </thead>
     <tbody>
 		@foreach (var item in Model) {
-				<tr>
-					<td>
-                        @if (!string.IsNullOrWhiteSpace(item.Description))
+			<tr>
+				<td>
+                    @if (!string.IsNullOrWhiteSpace(item.Description))
+                    {
+                        <a href="" title="@item.Description" class="adescription">@item.Name</a>
+                    }
+                    else
+                    {
+                        @item.Name
+                    }
+                </td>
+				<td>
+					@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
+				</td>
+                <td>
+					@Html.DisplayFor(modelItem => item.StockAmount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.CategoryNameDisplay)
+				</td>
+				<td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        if (User.IsInRole("Admin"))
                         {
-                            <a href="" title="@item.Description" style="text-decoration: none;cursor: zoom-in">@item.Name</a>
+                            @:&nbsp;|&nbsp;
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <text>&nbsp;|&nbsp;</text>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
-                        else
-                        {
-                            @item.Name
-                        }
-                    </td>
-					<td>
-						@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
-					</td>
-                    <td>
-						@Html.DisplayFor(modelItem => item.StockAmount)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.CategoryNameDisplay)
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
-						<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
-						<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-					</td>
-				</tr>
+                    }
+                </td>
+			</tr>
 		}
     </tbody>
 </table>
