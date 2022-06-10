@@ -44,6 +44,8 @@ namespace DataAccess.Services
         {
             if (Query().Any(p => p.Name.ToLower() == entity.Name.ToLower().Trim()))
                 return new ErrorResult("Product can not be added because product with the same name exists!");
+            entity.Name = entity.Name.Trim();
+            entity.Description = entity.Description?.Trim();
             return base.Add(entity, save);
         }
 
@@ -51,6 +53,8 @@ namespace DataAccess.Services
         {
             if (Query().Any(p => p.Name.ToLower() == entity.Name.ToLower().Trim() && p.Id != entity.Id))
                 return new ErrorResult("Product can not be updated because product with the same name exists!");
+            entity.Name = entity.Name.Trim();
+            entity.Description = entity.Description?.Trim();
             return base.Update(entity, save);
         }
     }

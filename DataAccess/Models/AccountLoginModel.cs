@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
 {
-    public class AccountModel
+    public class AccountLoginModel
     {
         [Required(ErrorMessage = "{0} is required!")]
         [MinLength(2, ErrorMessage = "{0} must have minimum {1} characters!")]

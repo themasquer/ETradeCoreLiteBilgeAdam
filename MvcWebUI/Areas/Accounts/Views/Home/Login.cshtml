@@ -1,4 +1,4 @@
-﻿@model DataAccess.Models.AccountModel
+﻿@model DataAccess.Models.AccountLoginModel
 
 @{
     ViewData["Title"] = "Login";
@@ -14,7 +14,7 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+            <p class="text-danger">@Html.DisplayFor(m => m.MessageDisplay)</p>
             <div class="row mb-3">
                 @Html.LabelFor(m => m.UserName, new { @class = "col-2 col-form-label" })
 				<div class="col-5">

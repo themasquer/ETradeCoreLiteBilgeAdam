@@ -1,6 +1,7 @@
 ﻿using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace _038_ETradeCoreLiteBilgeAdam.Controllers
@@ -21,6 +22,26 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
 
             var categories = _db.Categories.ToList();
             _db.Categories.RemoveRange(categories);
+
+            var userDetials = _db.UserDetails.ToList();
+            _db.UserDetails.RemoveRange(userDetials);
+
+            var users = _db.Users.ToList();
+            _db.Users.RemoveRange(users);
+
+            var roles = _db.Roles.ToList();
+            _db.Roles.RemoveRange(roles);
+
+            if (roles.Count > 0)
+            {
+                _db.Database.ExecuteSqlRaw("dbcc CHECKIDENT ('Roles', RESEED, 0)");
+            }
+
+            var cities = _db.Cities.ToList();
+            _db.Cities.RemoveRange(cities);
+
+            var countries = _db.Countries.ToList();
+            _db.Countries.RemoveRange(countries);
 
             _db.Categories.Add(new Category()
             {
@@ -87,6 +108,43 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 }
             });
 
+            _db.Countries.Add(new Country()
+            {
+                Name = "Amerika Birleşik Devletleri",
+                Cities = new List<City>()
+                {
+                    new City()
+                    {
+                        Name = "Los Angeles"
+                    },
+                    new City()
+                    {
+                        Name = "New York"
+                    }
+                }
+            });
+            _db.Countries.Add(new Country()
+            {
+                Name = "Türkiye",
+                Cities = new List<City>()
+                {
+                    new City()
+                    {
+                        Name = "Ankara"
+                    },
+                    new City()
+                    {
+                        Name = "İstanbul"
+                    },
+                    new City()
+                    {
+                        Name = "İzmir"
+                    }
+                }
+            });
+
+            _db.SaveChanges();
+
             _db.Roles.Add(new Role()
             {
                 Name = "Admin",
@@ -96,7 +154,14 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                     {
                         IsActive = true,
                         Password = "cagil",
-                        UserName = "cagil"
+                        UserName = "cagil",
+                        UserDetail = new UserDetail()
+                        {
+                            Address = "Çankaya",
+                            CityId = _db.Cities.SingleOrDefault(c => c.Name == "Ankara").Id,
+                            CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
+                            Email = "cagil@eticaret.com"
+                        }
                     }
                 }
             });
@@ -109,7 +174,14 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                     {
                         IsActive = true,
                         Password = "leo",
-                        UserName = "leo"
+                        UserName = "leo",
+                        UserDetail = new UserDetail()
+                        {
+                            Address = "Hollywood",
+                            CityId = _db.Cities.SingleOrDefault(c => c.Name == "Los Angeles").Id,
+                            CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Amerika Birleşik Devletleri").Id,
+                            Email = "leo@eticaret.com"
+                        }
                     }
                 }
             });

@@ -1,0 +1,130 @@
+﻿@model DataAccess.Models.AccountRegisterModel
+
+@{
+	ViewData["Title"] = "Register";
+	Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+		{
+			@Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+            <div class="row mb-3">
+				@Html.LabelFor(m => m.UserName, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+				@Html.LabelFor(m => m.Password, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control password" })
+					@Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+				</div>
+                <div class="col-5">
+                    <a id="showhidepassword" href="" title="Show / Hide Password">Show / Hide Password</a>
+                </div>
+            </div>
+            <div class="row mb-3">
+				@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+				</div>
+            </div>
+			<div class="row mb-3">
+                @Html.LabelFor(m => m.Address, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.TextAreaFor(m => m.Address, new { @class = "form-control", rows = "4" })
+					@Html.ValidationMessageFor(m => m.Address, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+                @Html.LabelFor(m => m.CountryId, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.DropDownListFor(m => m.CountryId, ViewBag.Countries as SelectList, "-- Select --", new { @class = "form-control", id = "countries" })
+					@Html.ValidationMessageFor(m => m.CountryId, null, new { @class = "text-danger", id = "countriesmessage" })
+				</div>
+            </div>
+			<div class="row mb-3">
+                @Html.LabelFor(m => m.CityId, new { @class = "col-2 col-form-label" })
+				<div class="col-5">
+					@Html.DropDownListFor(m => m.CityId, ViewBag.Cities as SelectList, "-- Select --", new { @class = "form-control cities" })
+					@Html.ValidationMessageFor(m => m.CityId, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+				<div class="offset-2 col-5">
+					<input type="submit" value="Register" class="btn btn-primary" />
+					&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-primary">Reset</button>
+					&nbsp;&nbsp;
+					@Html.ActionLink("Login", "Login", "Home")
+				</div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+	<script src="/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        $(function() {
+             $("#countries").off("change");
+             $("#countries").change(function() {
+                $(".cities").empty();
+                $("#countriesmessage").text("");
+                var selectedCountryId = $("#countries").val();
+                if (selectedCountryId === "") {
+                    $("#countriesmessage").text("Please select a country...");
+                    $(".cities").append('<option value="">-- Select Country --</option>');
+                } else {
+                    $.ajax({
+                        cache: false,
+                        dataType: "json",
+                        url: "/Cities/GetJson",
+                        type: "get",
+                        data: { countryId: selectedCountryId },
+                        success: function(cities) {
+                            $(".cities").append('<option value="">-- Select City --</option>');
+                            for (var i = 0; i < cities.length; i++) {
+                                $(".cities").append('<option value="' + cities[i].id + '">' + cities[i].name + '</option>');
+                            }
+                        },
+                        error: function() {
+                            alert("An error occured during AJAX request!");
+                        }
+                    });
+                }
+             });
+
+             var showPassword = false;
+             $(document).off('click', '#showhidepassword');
+             $(document).on('click', '#showhidepassword', function(event) {
+                 event.preventDefault();
+                 showPassword = !showPassword;
+                 if (showPassword)
+                     $(".password").prop("type", "text");
+                 else
+                     $(".password").prop("type", "password");
+             });
+        });
+    </script>
+}

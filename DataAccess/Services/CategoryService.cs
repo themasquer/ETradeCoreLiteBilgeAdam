@@ -39,6 +39,7 @@ namespace DataAccess.Services
         {
             if (Query().Any(c => c.Name.ToLower() == entity.Name.ToLower().Trim()))
                 return new ErrorResult("Category can not be added because category with the same name exists!");
+            entity.Name = entity.Name.Trim();
             entity.Description = entity.Description?.Trim();
             return base.Add(entity, save);
         }
@@ -47,6 +48,7 @@ namespace DataAccess.Services
         {
             if (Query().Any(c => c.Name.ToLower() == entity.Name.ToLower().Trim() && c.Id != entity.Id))
                 return new ErrorResult("Category can not be updated because category with the same name exists!");
+            entity.Name = entity.Name.Trim();
             entity.Description = entity.Description?.Trim();
             return base.Update(entity, save);
         }
