@@ -13,25 +13,27 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         // Add service injections here
         private readonly ProductServiceBase _productService;
         private readonly CategoryServiceBase _categoryService;
+        private readonly StoreServiceBase _storeService;
 
-        public ProductsController(ProductServiceBase productService, CategoryServiceBase categoryService)
+        public ProductsController(ProductServiceBase productService, CategoryServiceBase categoryService, StoreServiceBase storeService)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _storeService = storeService;
         }
 
         // GET: Products
         [AllowAnonymous]
         public IActionResult Index()
         {
-            List<Product> productList = _productService.Query().ToList();
+            List<Product> productList = _productService.GetList();
             return View(productList);
         }
 
         // GET: Products/Details/5
         public IActionResult Details(int id)
         {
-            Product product = _productService.Query().SingleOrDefault(p => p.Id == id); 
+            Product product = _productService.GetItem(id); 
             if (product == null)
             {
                 return NotFound();
@@ -44,7 +46,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name");
+            ViewBag.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name");
             return View();
         }
 
@@ -64,7 +67,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name", product.CategoryId);
+            ViewBag.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name", product.StoreIds);
             return View(product);
         }
 
@@ -72,13 +76,14 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
-            Product product = _productService.Query().SingleOrDefault(p => p.Id == id);
+            Product product = _productService.GetItem(id);
             if (product == null)
             {
                 return NotFound();
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name", product.CategoryId);
+            ViewBag.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name", product.StoreIds);
             return View(product);
         }
 
@@ -98,7 +103,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name", product.CategoryId);
+            ViewBag.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name", product.StoreIds);
             return View(product);
         }
 
@@ -106,7 +112,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
-            Product product = _productService.Query().SingleOrDefault(p => p.Id == id);
+            Product product = _productService.GetItem(id);
             if (product == null)
             {
                 return NotFound();

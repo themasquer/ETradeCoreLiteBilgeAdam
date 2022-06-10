@@ -13,7 +13,7 @@ namespace AppCore.DataAccess.Bases
     {
         const string _resultMessage = "Changes not saved.";
 
-        private readonly DbContext _dbContext;
+        protected readonly DbContext _dbContext;
 
         protected ServiceBase(DbContext dbContext)
         {
@@ -23,6 +23,21 @@ namespace AppCore.DataAccess.Bases
         public virtual IQueryable<TEntity> Query()
         {
             return _dbContext.Set<TEntity>();
+        }
+
+        public virtual List<TEntity> GetList()
+        {
+            return Query().ToList();
+        }
+
+        public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Query().Where(predicate).ToList();
+        }
+
+        public virtual TEntity GetItem(int id)
+        {
+            return Query().SingleOrDefault(q => q.Id == id);
         }
 
         public virtual Result Add(TEntity entity, bool save = true)

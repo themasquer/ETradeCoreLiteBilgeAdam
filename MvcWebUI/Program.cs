@@ -26,6 +26,7 @@ builder.Services.AddScoped<UserServiceBase, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<CountryServiceBase, CountryService>();
 builder.Services.AddScoped<CityServiceBase, CityService>();
+builder.Services.AddScoped<StoreServiceBase, StoreService>();
 
 var section = builder.Configuration.GetSection(nameof(AppSettings));
 section.Bind(new AppSettings());

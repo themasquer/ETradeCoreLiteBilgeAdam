@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using DataAccess.Enums;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models
@@ -22,6 +23,9 @@ namespace DataAccess.Models
         [Compare("Password", ErrorMessage = "{0} and {1} must be same!")]
         [DisplayName("Confirm Password")]
         public string? ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "{0} is required!")]
+        public Sex? Sex { get; set; }
 
         [Required(ErrorMessage = "{0} is required!")]
         [StringLength(250)]

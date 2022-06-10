@@ -1,8 +1,7 @@
-﻿@model DataAccess.Models.AccountRegisterModel
+﻿@model AccountRegisterModel
 
 @{
 	ViewData["Title"] = "Register";
-	Layout = "_Layout";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -37,6 +36,17 @@
 				<div class="col-5">
 					@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
 					@Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+				</div>
+            </div>
+            <div class="row mb-3">
+				@*@Html.LabelFor(m => m.Sex, new { @class = "col-2 col-form-label" })*@
+                <label asp-for="Sex" class="col-2 col-form-label"></label>
+				<div class="col-5 divsex">
+					@*@Html.RadioButtonFor(m => m.Sex, (int)Sex.Woman) @Sex.Woman*@
+                    <input asp-for="Sex" type="radio" value="@((int)Sex.Woman)" checked /> @Sex.Woman
+                    &nbsp;
+                    @*@Html.RadioButtonFor(m => m.Sex, (int)Sex.Man) @Sex.Man*@
+                    <input asp-for="Sex" type="radio" value="@((int)Sex.Man)" /> @Sex.Man
 				</div>
             </div>
             <div class="row mb-3">

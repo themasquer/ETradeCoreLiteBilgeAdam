@@ -22,7 +22,7 @@ namespace DataAccess.Services
 
         public User Login(AccountLoginModel model)
         {
-            var user = _userService.Query().SingleOrDefault(u => u.UserName == model.UserName && u.Password == model.Password && u.IsActive == true);
+            var user = _userService.Query().SingleOrDefault(u => u.UserName == model.UserName && u.Password == model.Password && u.IsActive);
             if (user == null)
                 model.MessageDisplay = "User not found!";
             return user;
@@ -41,7 +41,8 @@ namespace DataAccess.Services
                     Address = model.Address.Trim(),
                     CityId = model.CityId,
                     CountryId = model.CountryId,
-                    Email = model.Email.Trim()
+                    Email = model.Email.Trim(),
+                    Sex = model.Sex
                 }
             };
             return _userService.Add(user);

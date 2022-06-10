@@ -1,5 +1,6 @@
 ﻿using DataAccess.Contexts;
 using DataAccess.Entities;
+using DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -17,6 +18,12 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
 
         public IActionResult Seed()
         {
+            var productStores = _db.ProductStores.ToList();
+            _db.ProductStores.RemoveRange(productStores);
+
+            var stores = _db.Stores.ToList();
+            _db.Stores.RemoveRange(stores);
+
             var products = _db.Products.ToList();
             _db.Products.RemoveRange(products);
 
@@ -43,6 +50,19 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
             var countries = _db.Countries.ToList();
             _db.Countries.RemoveRange(countries);
 
+            _db.Stores.Add(new Store()
+            {
+                Name = "Hepsiburada",
+                IsVirtual = true
+            });
+            _db.Stores.Add(new Store()
+            {
+                Name = "Vatan",
+                IsVirtual = false
+            });
+            
+            _db.SaveChanges();
+
             _db.Categories.Add(new Category()
             {
                 Name = "Computer",
@@ -54,21 +74,50 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                         Name = "Laptop",
                         UnitPrice = 3000.5,
                         ExpirationDate = new DateTime(2032, 1, 27),
-                        StockAmount = 10
+                        StockAmount = 10,
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Mouse",
                         UnitPrice = 20.5,
                         StockAmount = 50,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Keyboard",
                         UnitPrice = 40,
                         StockAmount = 45,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
@@ -76,7 +125,14 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                         UnitPrice = 2500,
                         ExpirationDate = DateTime.Parse("05/19/2027", new CultureInfo("en-US")),
                         StockAmount = 20,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     }
                 }
             });
@@ -97,13 +153,31 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                         Name = "Receiver",
                         UnitPrice = 5000,
                         StockAmount = 30,
-                        Description = "Home theater system component"
+                        Description = "Home theater system component",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Equalizer",
                         UnitPrice = 1000,
-                        StockAmount = 40
+                        StockAmount = 40,
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     }
                 }
             });
@@ -160,7 +234,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                             Address = "Çankaya",
                             CityId = _db.Cities.SingleOrDefault(c => c.Name == "Ankara").Id,
                             CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
-                            Email = "cagil@eticaret.com"
+                            Email = "cagil@eticaret.com",
+                            Sex = Sex.Man
                         }
                     }
                 }
@@ -180,7 +255,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                             Address = "Hollywood",
                             CityId = _db.Cities.SingleOrDefault(c => c.Name == "Los Angeles").Id,
                             CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Amerika Birleşik Devletleri").Id,
-                            Email = "leo@eticaret.com"
+                            Email = "leo@eticaret.com",
+                            Sex = Sex.Man
                         }
                     }
                 }

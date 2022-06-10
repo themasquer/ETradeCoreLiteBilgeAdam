@@ -14,7 +14,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
 
         public IActionResult GetJson(int? countryId)
         {
-            return Json(_cityService.GetCities(countryId ?? 0));
+            return Json(_cityService.GetList(c => c.CountryId == countryId));
         }
     }
 }

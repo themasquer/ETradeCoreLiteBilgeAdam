@@ -57,6 +57,13 @@
 					<span asp-validation-for="CategoryId" class="text-danger"></span>
 				</div>
             </div>
+			<div class="row mb-3">
+                <label asp-for="StoreIds" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<select multiple asp-for="StoreIds" class="form-control" asp-items="ViewBag.Stores"></select>
+					<span asp-validation-for="StoreIds" class="text-danger"></span>
+				</div>
+            </div>
             <div class="row mb-3">
 				<div class="offset-2 col-5">
 					<input type="submit" value="Save" class="btn btn-primary" />

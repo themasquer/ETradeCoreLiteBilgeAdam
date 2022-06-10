@@ -18,9 +18,8 @@ namespace DataAccess.Entities
         [MaxLength(10, ErrorMessage = "{0} must have maximum {1} characters!")]
         public string? Password { get; set; }
 
-        [Required(ErrorMessage = "{0} is required!")]
         [DisplayName("Active")]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         [Required(ErrorMessage = "{0} is required!")]
         [DisplayName("Role")]

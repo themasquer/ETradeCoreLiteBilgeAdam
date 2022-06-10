@@ -121,7 +121,26 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("Name");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.ProductStore", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("ProductId", "StoreId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("ProductStores");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Role", b =>
@@ -142,6 +161,27 @@ namespace DataAccess.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsVirtual")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stores");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -150,8 +190,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("IsActive")
-                        .IsRequired()
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
@@ -171,6 +210,9 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -198,11 +240,17 @@ namespace DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<int>("Sex")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId");
 
                     b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("UserDetails");
                 });
@@ -227,6 +275,25 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.ProductStore", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Product", "Product")
+                        .WithMany("ProductStores")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Entities.Store", "Store")
+                        .WithMany("ProductStores")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.User", b =>
@@ -277,9 +344,19 @@ namespace DataAccess.Migrations
                     b.Navigation("Cities");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Product", b =>
+                {
+                    b.Navigation("ProductStores");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Store", b =>
+                {
+                    b.Navigation("ProductStores");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.User", b =>

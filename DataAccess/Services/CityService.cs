@@ -10,11 +10,6 @@ namespace DataAccess.Services
         {
 
         }
-
-        public List<City> GetCities(int countryId)
-        {
-            return Query().Where(c => c.CountryId == countryId).ToList();
-        }
     }
 
     public class CityService : CityServiceBase

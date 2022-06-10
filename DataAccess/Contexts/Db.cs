@@ -12,6 +12,8 @@ namespace DataAccess.Contexts
         public DbSet<UserDetail> UserDetails { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<ProductStore> ProductStores { get; set; }
 
         public Db(DbContextOptions options) : base(options)
         {
@@ -25,6 +27,9 @@ namespace DataAccess.Contexts
                 .WithMany(country => country.Cities)
                 .HasForeignKey(city => city.CountryId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ProductStore>()
+                .HasKey(ps => new { ps.ProductId, ps.StoreId });
 
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.UserName).IsUnique();

@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using DataAccess.Entities;
+using DataAccess.Enums;
 using DataAccess.Models;
 using DataAccess.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -66,7 +67,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Accounts.Controllers
 
         public IActionResult Register()
         {
-            ViewBag.Countries = new SelectList(_countryService.Query().ToList(), "Id", "Name");
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.Cities = new SelectList(new List<City>(), "Id", "Name");
             return View();
         }
@@ -82,8 +83,8 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Accounts.Controllers
                     return RedirectToAction(nameof(Login));
                 ModelState.AddModelError("", result.Message);
             }
-            ViewBag.Countries = new SelectList(_countryService.Query().ToList(), "Id", "Name", model.CountryId);
-            ViewBag.Cities = new SelectList(_cityService.GetCities(model.CountryId ?? 0), "Id", "Name", model.CityId);
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name", model.CountryId);
+            ViewBag.Cities = new SelectList(_cityService.GetList(c => c.CountryId == model.CountryId), "Id", "Name", model.CityId);
             return View(model);
         }
     }

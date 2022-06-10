@@ -1,0 +1,36 @@
+﻿@model DataAccess.Entities.Store
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Store</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.VirtualDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.VirtualDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.ProductNamesDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.Raw(Model.ProductNamesDisplay)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -34,6 +34,8 @@ namespace DataAccess.Entities
         public int? CategoryId { get; set; }
 
         public Category? Category { get; set; }
+
+        public List<ProductStore>? ProductStores { get; set; }
     }
 
     public partial class Product
@@ -49,5 +51,13 @@ namespace DataAccess.Entities
         [NotMapped]
         [DisplayName("Category")]
         public string? CategoryNameDisplay { get; set; }
+
+        [NotMapped]
+        [DisplayName("Stores")]
+        public List<int>? StoreIds { get; set; }
+
+        [NotMapped]
+        [DisplayName("Stores")]
+        public string? StoreNamesDisplay { get; set; }
     }
 }

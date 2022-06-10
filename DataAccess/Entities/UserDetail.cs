@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using DataAccess.Enums;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,6 +12,9 @@ namespace DataAccess.Entities
         public int? UserId { get; set; }
 
         public User? User { get; set; }
+        
+        [Required]
+        public Sex? Sex { get; set; }
 
         [Required(ErrorMessage = "{0} is required!")]
         [StringLength(250)]

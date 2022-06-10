@@ -7,106 +7,106 @@ using Microsoft.AspNetCore.Mvc;
 namespace _038_ETradeCoreLiteBilgeAdam.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class CategoriesController : Controller
+    public class StoresController : Controller
     {
         // Add service injections here
-        private readonly CategoryServiceBase _categoryService;
+        private readonly StoreServiceBase _storeService;
 
-        public CategoriesController(CategoryServiceBase categoryService)
+        public StoresController(StoreServiceBase storeService)
         {
-            _categoryService = categoryService;
+            _storeService = storeService;
         }
 
-        // GET: Categories
+        // GET: Stores
         public IActionResult Index()
         {
-            List<Category> categoryList = _categoryService.GetList();
-            return View(categoryList);
+            List<Store> storeList = _storeService.GetList();
+            return View(storeList);
         }
 
-        // GET: Categories/Details/5
+        // GET: Stores/Details/5
         public IActionResult Details(int id)
         {
-            Category category = _categoryService.GetItem(id);
-            if (category == null)
+            Store store = _storeService.GetItem(id);
+            if (store == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(store);
         }
 
-        // GET: Categories/Create
+        // GET: Stores/Create
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Stores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public IActionResult Create(Store store)
         {
             if (ModelState.IsValid)
             {
-                var result = _categoryService.Add(category);
+                var result = _storeService.Add(store);
                 if (result.IsSuccessful)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            return View(category);
+            return View(store);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Stores/Edit/5
         public IActionResult Edit(int id)
         {
-            Category category = _categoryService.GetItem(id);
-            if (category == null)
+            Store store = _storeService.GetItem(id);
+            if (store == null)
             {
                 return NotFound();
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            return View(category);
+            return View(store);
         }
 
-        // POST: Categories/Edit
+        // POST: Stores/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
+        public IActionResult Edit(Store store)
         {
             if (ModelState.IsValid)
             {
-                var result = _categoryService.Update(category);
+                var result = _storeService.Update(store);
                 if (result.IsSuccessful)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            return View(category);
+            return View(store);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Stores/Delete/5
         public IActionResult Delete(int id)
         {
-            Category category = _categoryService.GetItem(id);
-            if (category == null)
+            Store store = _storeService.GetItem(id);
+            if (store == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(store);
         }
 
-        // POST: Categories/Delete
+        // POST: Stores/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var result = _categoryService.Delete(c => c.Id == id);
+            var result = _storeService.Delete(s => s.Id == id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
