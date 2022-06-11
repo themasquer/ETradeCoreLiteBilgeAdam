@@ -19,14 +19,23 @@ body {
 
 
 
-.navusername {
+.navusernameblack {
     padding-top: 8px;
 }
 
     .navusername span {
-        color: black;
+        color: #000000;
         font-weight: bold;
     }
+
+.navusernamewhite {
+    padding-top: 8px;
+}
+
+.navusername span {
+    color: #ffffff;
+    font-weight: bold;
+}
 
 .pusername {
     font-weight: bold;

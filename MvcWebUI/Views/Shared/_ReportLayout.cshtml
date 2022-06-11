@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@AppSettings.Title</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,25 +22,25 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Db" asp-action="Seed">Seed Database</a>
+                                <a class="nav-link" asp-area="" asp-controller="Db" asp-action="Seed">Seed Database</a>
                             </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
+                                <a class="nav-link" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Domains</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Stores" asp-action="Index">Stores</a>
+                                        <a class="nav-link text-black" asp-area="" asp-controller="Stores" asp-action="Index">Stores</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                                        <a class="nav-link text-black" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
                                     </li>
                                 </ul>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                         </li>
                     </ul>
                     <div class="navbar-text">
@@ -48,21 +48,21 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <div class="navusernameblack">
+                                    <div class="navusernamewhite">
                                         <span>@User.Identity.Name</span>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    <a class="nav-link" asp-area="Accounts" asp-controller="Home" asp-action="Logout">Logout</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Register">Register</a>
+                                    <a class="nav-link" asp-area="Accounts" asp-controller="Home" asp-action="Register">Register</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Login">Login</a>
+                                    <a class="nav-link" asp-area="Accounts" asp-controller="Home" asp-action="Login">Login</a>
                                 </li>
                             }
                         </ul>
@@ -71,14 +71,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container-fluid">
             &copy; @DateTime.Today.Year - @AppSettings.Title
         </div>
     </footer>

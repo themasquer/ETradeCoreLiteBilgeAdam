@@ -1,0 +1,66 @@
+﻿@model ReportsIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+	Layout = "_ReportLayout";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.RecordsCount > 0)
+{
+	<p class="bg-success text-white">@Model.RecordsCount records found</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().StoreName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().CategoryName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().ProductName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().UnitPriceDisplay)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().StockAmount)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().ExpirationDateDisplay)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Reports) {
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.StoreName)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.CategoryName)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.ProductName)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.StockAmount)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
+						</td>
+					</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p class="bg-danger text-white">No records found</p>
+}

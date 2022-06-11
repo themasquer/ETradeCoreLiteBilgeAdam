@@ -123,7 +123,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                     {
                         Name = "Monitor",
                         UnitPrice = 2500,
-                        ExpirationDate = DateTime.Parse("05/19/2027", new CultureInfo("en-US")),
+                        ExpirationDate = DateTime.Parse("05/19/2027"),
                         StockAmount = 20,
                         Description = "Computer peripheral",
                         ProductStores = new List<ProductStore>()
