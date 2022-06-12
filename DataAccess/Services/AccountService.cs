@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using DataAccess.Enums;
 using DataAccess.Models;
+using DataAccess.Services.CRUD;
 
 namespace DataAccess.Services
 {

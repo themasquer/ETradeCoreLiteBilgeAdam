@@ -6,7 +6,7 @@ using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace DataAccess.Services
+namespace DataAccess.Services.CRUD
 {
     public abstract class CategoryServiceBase : ServiceBase<Category>
     {

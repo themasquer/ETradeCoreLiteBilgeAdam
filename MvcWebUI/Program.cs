@@ -1,6 +1,7 @@
 using _038_ETradeCoreLiteBilgeAdam.Settings;
 using DataAccess.Contexts;
 using DataAccess.Services;
+using DataAccess.Services.CRUD;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;

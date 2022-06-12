@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Linq.Expressions;
 
-namespace DataAccess.Services
+namespace DataAccess.Services.CRUD
 {
     public abstract class ProductServiceBase : ServiceBase<Product>
     {

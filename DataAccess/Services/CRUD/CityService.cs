@@ -2,7 +2,7 @@
 using DataAccess.Contexts;
 using DataAccess.Entities;
 
-namespace DataAccess.Services
+namespace DataAccess.Services.CRUD
 {
     public abstract class CityServiceBase : ServiceBase<City>
     {

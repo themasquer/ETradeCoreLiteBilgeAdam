@@ -5,7 +5,7 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Services
+namespace DataAccess.Services.CRUD
 {
     public abstract class UserServiceBase : ServiceBase<User>
     {

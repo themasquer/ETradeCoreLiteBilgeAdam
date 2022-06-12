@@ -4,8 +4,6 @@ namespace DataAccess.Models
 {
     public class ReportModel
     {
-        public int? ProductId { get; set; }
-
         [DisplayName("Product Name")]
         public string? ProductName { get; set; }
 
@@ -30,8 +28,10 @@ namespace DataAccess.Models
 
 
 
+        public int? ProductId { get; set; }
         public int? CategoryId { get; set; }
         public double? UnitPrice { get; set; }
         public DateTime? ExpirationDate { get; set; }
+        public int StoreId { get; set; }
     }
 }

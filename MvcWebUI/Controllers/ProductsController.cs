@@ -1,6 +1,6 @@
 ﻿#nullable disable
 using DataAccess.Entities;
-using DataAccess.Services;
+using DataAccess.Services.CRUD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

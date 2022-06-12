@@ -5,7 +5,7 @@ namespace DataAccess.Services
 {
     public interface IReportService
     {
-        List<ReportModel> GetList(bool innerJoin = false);
+        List<ReportModel> GetList(ReportFilterModel filter, bool innerJoin = false);
     }
 
     public class ReportService : IReportService
@@ -17,7 +17,7 @@ namespace DataAccess.Services
             _db = db;
         }
 
-        public List<ReportModel> GetList(bool innerJoin = false)
+        public List<ReportModel> GetList(ReportFilterModel filter, bool innerJoin = false)
         {
             IQueryable<ReportModel> query;
             if (innerJoin)
@@ -42,7 +42,8 @@ namespace DataAccess.Services
                             StockAmount = product.StockAmount,
                             UnitPrice = product.UnitPrice,
                             UnitPriceDisplay = (product.UnitPrice ?? 0).ToString(),
-                            StoreName = store.Name + " (" + (store.IsVirtual == true ? "Virtual" : "Not Virtual") + ")"
+                            StoreName = store.Name + " (" + (store.IsVirtual == true ? "Virtual" : "Not Virtual") + ")",
+                            StoreId = store.Id
                         };
             }
             else
@@ -70,11 +71,26 @@ namespace DataAccess.Services
                             StockAmount = product.StockAmount,
                             UnitPrice = product.UnitPrice,
                             UnitPriceDisplay = (product.UnitPrice ?? 0).ToString(),
-                            StoreName = subStore.Name != null ? 
+                            StoreName = subStore != null ? 
                                     (subStore.Name + " (" + (subStore.IsVirtual == true ? "Virtual" : "Not Virtual") + ")") 
-                                : ""
+                                : "",
+                            StoreId = subStore != null ? subStore.Id : 0
                         };
             }
+            if (filter.CategoryId.HasValue)
+                query = query.Where(q => q.CategoryId == filter.CategoryId);
+            if (!string.IsNullOrWhiteSpace(filter.ProductName))
+                query = query.Where(q => q.ProductName.ToLower().Contains(filter.ProductName.ToLower().Trim()));
+            if (filter.UnitPriceMinimum != null)
+                query = query.Where(q => q.UnitPrice >= filter.UnitPriceMinimum);
+            if (filter.UnitPriceMaximum.HasValue)
+                query = query.Where(q => q.UnitPrice <= filter.UnitPriceMaximum);
+            if (filter.ExpirationDateMinimum.HasValue)
+                query = query.Where(q => q.ExpirationDate >= filter.ExpirationDateMinimum);
+            if (filter.ExpirationDateMaximum.HasValue)
+                query = query.Where(q => q.ExpirationDate <= filter.ExpirationDateMaximum);
+            if (filter.StoreIds != null && filter.StoreIds.Count > 0)
+                query = query.Where(q => filter.StoreIds.Contains(q.StoreId));
             return query.ToList();
         }
     }

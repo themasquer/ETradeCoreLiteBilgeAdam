@@ -1,4 +1,4 @@
-﻿using DataAccess.Services;
+﻿using DataAccess.Services.CRUD;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _038_ETradeCoreLiteBilgeAdam.Controllers
