@@ -1,6 +1,6 @@
-﻿using AppCore.DataAccess.Bases;
+﻿using AppCore.DataAccess.Services.Bases;
 using AppCore.Results;
-using AppCore.Results.Bases;
+using AppCore.DataAccess.Results.Bases;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;

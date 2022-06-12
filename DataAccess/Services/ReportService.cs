@@ -1,11 +1,12 @@
-﻿using DataAccess.Contexts;
+﻿using AppCore.DataAccess.Models;
+using DataAccess.Contexts;
 using DataAccess.Models;
 
 namespace DataAccess.Services
 {
     public interface IReportService
     {
-        List<ReportModel> GetList(ReportFilterModel filter, bool innerJoin = false);
+        List<ReportModel> GetList(ReportFilterModel filter, PageModel page, bool innerJoin = false);
     }
 
     public class ReportService : IReportService
@@ -17,7 +18,7 @@ namespace DataAccess.Services
             _db = db;
         }
 
-        public List<ReportModel> GetList(ReportFilterModel filter, bool innerJoin = false)
+        public List<ReportModel> GetList(ReportFilterModel filter, PageModel page, bool innerJoin = false)
         {
             IQueryable<ReportModel> query;
             if (innerJoin)
@@ -91,6 +92,8 @@ namespace DataAccess.Services
                 query = query.Where(q => q.ExpirationDate <= filter.ExpirationDateMaximum);
             if (filter.StoreIds != null && filter.StoreIds.Count > 0)
                 query = query.Where(q => filter.StoreIds.Contains(q.StoreId));
+            page.TotalRecordsCount = query.Count();
+            query = query.Skip((page.PageNumber - 1) * page.RecordsPerPageCount).Take(page.RecordsPerPageCount);
             return query.ToList();
         }
     }

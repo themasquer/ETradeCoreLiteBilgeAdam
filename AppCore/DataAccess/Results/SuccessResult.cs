@@ -1,4 +1,4 @@
-﻿using AppCore.Results.Bases;
+﻿using AppCore.DataAccess.Results.Bases;
 
 namespace AppCore.Results
 {

@@ -1,4 +1,4 @@
-﻿namespace AppCore.Results.Bases
+﻿namespace AppCore.DataAccess.Results.Bases
 {
     public abstract class Result
     {

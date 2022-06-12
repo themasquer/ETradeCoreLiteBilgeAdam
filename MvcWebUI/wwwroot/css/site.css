@@ -53,3 +53,12 @@ div.divsex {
 div.divvirtual {
     padding-top: 7px;
 }
+
+a.acategory {
+    text-decoration: none;
+    color: #0026ff;
+}
+
+    a.acategory:hover {
+        color: #ff006e;
+    }

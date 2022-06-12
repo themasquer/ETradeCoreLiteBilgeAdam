@@ -1,4 +1,4 @@
-﻿using AppCore.DataAccess.Bases;
+﻿using AppCore.DataAccess.Services.Bases;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 

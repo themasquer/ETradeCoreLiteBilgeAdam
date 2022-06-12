@@ -1,4 +1,4 @@
-﻿using AppCore.Results.Bases;
+﻿using AppCore.DataAccess.Results.Bases;
 using DataAccess.Entities;
 using DataAccess.Enums;
 using DataAccess.Models;

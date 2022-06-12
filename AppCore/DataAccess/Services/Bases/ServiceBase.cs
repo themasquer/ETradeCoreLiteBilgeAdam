@@ -1,10 +1,10 @@
 ﻿using AppCore.Records.Bases;
 using AppCore.Results;
-using AppCore.Results.Bases;
+using AppCore.DataAccess.Results.Bases;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace AppCore.DataAccess.Bases
+namespace AppCore.DataAccess.Services.Bases
 {
     /// <summary>
     /// Service class for managing data access operations without using models.

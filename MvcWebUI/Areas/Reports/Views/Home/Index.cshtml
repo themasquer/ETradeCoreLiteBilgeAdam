@@ -1,0 +1,161 @@
+﻿@using _038_ETradeCoreLiteBilgeAdam.Areas.Reports.Models
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model ReportsIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+	Layout = "_ReportLayout";
+}
+
+<form asp-action="Index" method="get" id="form">
+	<div class="row" style="padding-top: 15px;">
+		<div class="col-2">
+			<h5>Quick Search</h5>
+			<hr />
+			@await Component.InvokeAsync("Categories")
+		</div>
+		<div class="col-10">
+			<h5>Report</h5>
+			<hr />
+			<div class="row">
+				<div class="col-2">
+					<label asp-for="Filter.CategoryId"></label>
+				</div>
+				<div class="col-4">
+					<select asp-for="Filter.CategoryId" asp-items="Model.Categories" class="form-control input">
+						<option value="">-- All --</option>
+					</select>
+				</div>
+				<div class="col-2">
+					<label asp-for="Filter.StoreIds"></label>
+				</div>
+				<div class="col-4">
+					<select multiple asp-for="Filter.StoreIds" asp-items="Model.Stores" class="form-control input"></select>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 30px;">
+				<div class="col-2">
+					<label asp-for="Filter.UnitPriceMinimum"></label>
+				</div>
+				<div class="col-4">
+					<div class="input-group">
+						<input asp-for="Filter.UnitPriceMinimum" class="form-control input" />
+						<span class="input-group-text">-</span>
+						<input asp-for="Filter.UnitPriceMaximum" class="form-control input" />
+					</div>
+				</div>
+				<div class="col-2">
+					<label asp-for="Filter.ExpirationDateMinimum"></label>
+				</div>
+				<div class="col-4">
+					<div class="input-group">
+						<input asp-for="Filter.ExpirationDateMinimum" class="form-control expirationdate input" />
+						<span class="input-group-text">-</span>
+						<input asp-for="Filter.ExpirationDateMaximum" class="form-control expirationdate input" />
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 30px;">
+				<div class="col-2">
+					<label asp-for="Filter.ProductName"></label>
+				</div>
+				<div class="col-10">
+					<input asp-for="Filter.ProductName" class="form-control input" />
+				</div>
+			</div>
+			<hr />
+			<div class="row" style="padding-bottom: 15px;">
+				<div class="col-12">
+					<a class="btn btn-primary" id="search">Search</a>
+					&nbsp;&nbsp;&nbsp;
+					<a asp-action="Index" class="btn btn-info">Clear</a>
+				</div>
+			</div>
+
+			@if (Model.Page.TotalRecordsCount > 0)
+			{
+				<p class="bg-success text-white">@Model.Page.TotalRecordsCount records found</p>
+				<div class="row" style="padding-bottom: 15px;">
+					<div class="col-1">
+						<label>Page</label>
+					</div>
+					<div class="col-1">
+						<select asp-for="Page.PageNumber" asp-items="Model.Pages" class="form-control" id="pagenumber"></select>
+					</div>
+				</div>
+				<table class="table table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().StoreName)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().CategoryName)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().ProductName)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().UnitPriceDisplay)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().StockAmount)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Reports.FirstOrDefault().ExpirationDateDisplay)
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.Reports) {
+								<tr>
+									<td>
+										@Html.DisplayFor(modelItem => item.StoreName)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.CategoryName)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.ProductName)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.StockAmount)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
+									</td>
+								</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else
+			{
+				<p class="bg-danger text-white">No records found</p>
+			}
+		</div>
+	</div>
+</form>
+
+@section Scripts {
+	<script>
+		$(function() {
+			$(".input").change(function() {
+				$("#pagenumber").prop("disabled", true);
+				$("#pagenumber").val("1");
+			});
+			$("#search").click(function(event) {
+				event.preventDefault();
+				$("#form").submit();
+			});
+			$("#pagenumber").change(function() {
+				$("#form").submit();
+			});
+		});
+	</script>
+}

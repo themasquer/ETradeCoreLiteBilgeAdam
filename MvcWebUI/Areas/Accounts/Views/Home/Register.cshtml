@@ -1,7 +1,13 @@
-﻿@model AccountRegisterModel
+﻿@using DataAccess.Models
+@using DataAccess.Enums
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model AccountRegisterModel
 
 @{
-	ViewData["Title"] = "Register";
+    ViewData["Title"] = "Register";
+    Layout = "_Layout";
 }
 
 <h1>@ViewData["Title"]</h1>
