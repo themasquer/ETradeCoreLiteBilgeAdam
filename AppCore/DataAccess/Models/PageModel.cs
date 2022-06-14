@@ -2,9 +2,9 @@
 {
     public class PageModel
     {
-        public int PageNumber { get; set; } = 1;
+        public int PageNumber { get; set; }
         public int TotalRecordsCount { get; set; }
-        public int RecordsPerPageCount { get; set; } = 10;
+        public int RecordsPerPageCount { get; set; }
 
         private List<int> _pageNumbers;
         public List<int> PageNumbers

@@ -11,3 +11,11 @@
         </li>
     }
 </ul>
+<br />
+<br />
+<form asp-action="Index" asp-controller="Home" asp-area="Reports" method="get">
+    <div class="input-group">
+        <input name="Filter.ProductOrStoreName" class="form-control" placeholder="Enter product or store" />
+        <button type="submit" class="input-group-text btn btn-primary">Search</button>
+    </div>
+</form>

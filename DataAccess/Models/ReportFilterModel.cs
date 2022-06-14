@@ -22,5 +22,7 @@ namespace DataAccess.Models
 
         [DisplayName("Store Name")]
         public List<int>? StoreIds { get; set; }
+
+        public string? ProductOrStoreName { get; set; }
     }
 }

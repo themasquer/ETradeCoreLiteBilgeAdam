@@ -6,7 +6,8 @@ namespace DataAccess.Services
 {
     public interface IReportService
     {
-        List<ReportModel> GetList(ReportFilterModel filter, PageModel page, bool innerJoin = false);
+        List<ReportModel> GetList(ReportFilterModel filter, PageModel page, OrderModel order, bool innerJoin = false);
+        List<string> GetOrderExpressions();
     }
 
     public class ReportService : IReportService
@@ -18,7 +19,7 @@ namespace DataAccess.Services
             _db = db;
         }
 
-        public List<ReportModel> GetList(ReportFilterModel filter, PageModel page, bool innerJoin = false)
+        public List<ReportModel> GetList(ReportFilterModel filter, PageModel page, OrderModel order, bool innerJoin = false)
         {
             IQueryable<ReportModel> query;
             if (innerJoin)
@@ -78,6 +79,27 @@ namespace DataAccess.Services
                             StoreId = subStore != null ? subStore.Id : 0
                         };
             }
+            switch (order.Expression)
+            {
+                case "Category Name":
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.CategoryName) : query.OrderByDescending(q => q.CategoryName);
+                    break;
+                case "Product Name":
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.ProductName) : query.OrderByDescending(q => q.ProductName);
+                    break;
+                case "Unit Price":
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.UnitPrice) : query.OrderByDescending(q => q.UnitPrice);
+                    break;
+                case "Stock Amount":
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.StockAmount) : query.OrderByDescending(q => q.StockAmount);
+                    break;
+                case "Expiration Date":
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.ExpirationDate) : query.OrderByDescending(q => q.ExpirationDate);
+                    break;
+                default:
+                    query = order.IsDirectionAscending ? query.OrderBy(q => q.StoreName) : query.OrderByDescending(q => q.StoreName);
+                    break;
+            }
             if (filter.CategoryId.HasValue)
                 query = query.Where(q => q.CategoryId == filter.CategoryId);
             if (!string.IsNullOrWhiteSpace(filter.ProductName))
@@ -92,9 +114,19 @@ namespace DataAccess.Services
                 query = query.Where(q => q.ExpirationDate <= filter.ExpirationDateMaximum);
             if (filter.StoreIds != null && filter.StoreIds.Count > 0)
                 query = query.Where(q => filter.StoreIds.Contains(q.StoreId));
+            if (!string.IsNullOrWhiteSpace(filter.ProductOrStoreName))
+                query = query.Where(q => q.ProductName.ToLower().Contains(filter.ProductOrStoreName.ToLower().Trim()) || q.StoreName.ToLower().Contains(filter.ProductOrStoreName.ToLower().Trim()));
             page.TotalRecordsCount = query.Count();
             query = query.Skip((page.PageNumber - 1) * page.RecordsPerPageCount).Take(page.RecordsPerPageCount);
             return query.ToList();
+        }
+
+        public List<string> GetOrderExpressions()
+        {
+            return new List<string>()
+            {
+                "Store Name", "Category Name", "Product Name", "Unit Price", "Stock Amount", "Expiration Date"
+            };
         }
     }
 }

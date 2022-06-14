@@ -84,6 +84,20 @@
 					<div class="col-1">
 						<select asp-for="Page.PageNumber" asp-items="Model.Pages" class="form-control" id="pagenumber"></select>
 					</div>
+					<div class="col-1">
+						<label>Order</label>
+					</div>
+					<div class="col-3">
+						<select asp-for="Order.Expression" asp-items="Model.OrderExpressions" class="form-control order"></select>
+					</div>
+					<div class="col-1">
+						<div class="form-check">
+							<input asp-for="Order.IsDirectionAscending" class="form-check-input order" id="ascending">
+							<label class="form-check-label" for="ascending">
+								Ascending
+							</label>
+						</div>
+					</div>
 				</div>
 				<table class="table table-striped table-hover table-bordered">
 					<thead>
@@ -154,6 +168,9 @@
 				$("#form").submit();
 			});
 			$("#pagenumber").change(function() {
+				$("#form").submit();
+			});
+			$(".order").change(function() {
 				$("#form").submit();
 			});
 		});

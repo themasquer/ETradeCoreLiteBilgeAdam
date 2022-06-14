@@ -28,12 +28,20 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Reports.Controllers
         public IActionResult Index(ReportsIndexViewModel viewModel)
         {
             viewModel.Filter = viewModel.Filter ?? new ReportFilterModel();
-            viewModel.Page = viewModel.Page ?? new PageModel();
+            viewModel.Page = viewModel.Page ?? new PageModel()
+            {
+                PageNumber = 1
+            };
             viewModel.Page.RecordsPerPageCount = AppSettings.RecordsPerPageCount;
-            viewModel.Reports = _reportService.GetList(viewModel.Filter, viewModel.Page);
+            viewModel.Order = viewModel.Order ?? new OrderModel()
+            {
+                IsDirectionAscending = true
+            };
+            viewModel.Reports = _reportService.GetList(viewModel.Filter, viewModel.Page, viewModel.Order);
             viewModel.Categories = new SelectList(_categoryService.GetList(), "Id", "Name", viewModel.Filter.CategoryId);
             viewModel.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name", viewModel.Filter.StoreIds);
             viewModel.Pages = new SelectList(viewModel.Page.PageNumbers, viewModel.Page.PageNumber);
+            viewModel.OrderExpressions = new SelectList(_reportService.GetOrderExpressions(), viewModel.Order.Expression);
             return View(viewModel);
         }
     }
