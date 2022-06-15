@@ -12,6 +12,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Reports.Models
         public MultiSelectList Stores { get; set; }
         public PageModel Page { get; set; }
         public SelectList Pages { get; set; }
+        public SelectList RecordsPerPageCounts { get; set; }
         public OrderModel Order { get; set; }
         public SelectList OrderExpressions { get; set; }
     }

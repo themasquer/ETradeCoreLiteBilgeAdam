@@ -9,14 +9,14 @@
 	Layout = "_ReportLayout";
 }
 
-<form asp-action="Index" method="get" id="form">
-	<div class="row" style="padding-top: 15px;">
-		<div class="col-2">
-			<h5>Quick Search</h5>
-			<hr />
-			@await Component.InvokeAsync("Categories")
-		</div>
-		<div class="col-10">
+<div class="row" style="padding-top: 15px;">
+	<div class="col-2">
+		<h5>Quick Search</h5>
+		<hr />
+		@await Component.InvokeAsync("Categories")
+	</div>
+	<div class="col-10">
+		<form asp-action="Index" method="get" id="form">
 			<h5>Report</h5>
 			<hr />
 			<div class="row">
@@ -65,6 +65,7 @@
 					<input asp-for="Filter.ProductName" class="form-control input" />
 				</div>
 			</div>
+			<input asp-for="Filter.ProductOrStoreName" type="hidden" />
 			<hr />
 			<div class="row" style="padding-bottom: 15px;">
 				<div class="col-12">
@@ -83,6 +84,12 @@
 					</div>
 					<div class="col-1">
 						<select asp-for="Page.PageNumber" asp-items="Model.Pages" class="form-control" id="pagenumber"></select>
+					</div>
+					<div class="col-2">
+						<label>Records / Page Count</label>
+					</div>
+					<div class="col-1">
+						<select asp-for="Page.RecordsPerPageCount" asp-items="Model.RecordsPerPageCounts" class="form-control" id="recordsperpagecount"></select>
 					</div>
 					<div class="col-1">
 						<label>Order</label>
@@ -152,9 +159,9 @@
 			{
 				<p class="bg-danger text-white">No records found</p>
 			}
-		</div>
+		</form>
 	</div>
-</form>
+</div>
 
 @section Scripts {
 	<script>
@@ -162,12 +169,17 @@
 			$(".input").change(function() {
 				$("#pagenumber").prop("disabled", true);
 				$("#pagenumber").val("1");
+				$("#recordsperpagecount").prop("disabled", true);
+                $("#recordsperpagecount").val("5");
 			});
 			$("#search").click(function(event) {
 				event.preventDefault();
 				$("#form").submit();
 			});
 			$("#pagenumber").change(function() {
+				$("#form").submit();
+			});
+			$("#recordsperpagecount").change(function() {
 				$("#form").submit();
 			});
 			$(".order").change(function() {
