@@ -121,12 +121,9 @@ namespace DataAccess.Services
             return query.ToList();
         }
 
-        public List<string> GetOrderExpressions()
+        public List<string> GetOrderExpressions() => new List<string>() 
         {
-            return new List<string>()
-            {
-                "Store Name", "Category Name", "Product Name", "Unit Price", "Stock Amount", "Expiration Date"
-            };
-        }
+            "Store Name", "Category Name", "Product Name", "Unit Price", "Stock Amount", "Expiration Date"
+        };
     }
 }
