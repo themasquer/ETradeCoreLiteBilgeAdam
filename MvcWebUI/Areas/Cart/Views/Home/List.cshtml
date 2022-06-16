@@ -1,0 +1,88 @@
+﻿@using DataAccess.Models
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model List<CartItemGroupByModel>
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "_Layout";
+
+    int totalProductCount = Model.Sum(m => m.ProductCount);
+    string totalUnitPrice = Model.Sum(m => m.TotalUnitPrice).ToString("C2");
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["CartMessage"] != null)
+{
+    <p class="text-success">@TempData["CartMessage"]</p>
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <p>
+        <a asp-action="Clear">Clear Cart</a>
+    </p>
+    <p class="bg-success text-white">
+        @if (totalProductCount == 1)
+        {
+            <span>@totalProductCount product found</span>
+        }
+        else
+        {
+            <span>@totalProductCount products found</span>
+        }
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TotalUnitPriceDisplay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ProductCount)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalUnitPriceDisplay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductCount)
+                    </td>
+                    <td>
+                        <a asp-action="Remove" asp-route-productId="@item.ProductId" asp-route-userId="@item.UserId">Remove from Cart</a>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <b>Total</b>
+                </td>
+                <td>
+                    <b>@totalUnitPrice</b>
+                </td>
+                <td>
+                    <b>@totalProductCount</b>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="bg-danger text-white">No products found in cart</p>
+}

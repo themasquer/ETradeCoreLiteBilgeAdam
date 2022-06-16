@@ -6,6 +6,11 @@
 
 <h1>@ViewData["Title"]</h1>
 
+@if (TempData["ProductMessage"] != null)
+{
+    <p class="text-success">@TempData["ProductMessage"]</p>
+}
+
 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 {
     <p>
@@ -61,6 +66,8 @@
 				<td>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <a asp-action="Add" asp-controller="Home" asp-area="Cart" asp-route-productId="@item.Id">Add to Cart</a>
+                        @:&nbsp;|&nbsp;
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                         if (User.IsInRole("Admin"))
                         {

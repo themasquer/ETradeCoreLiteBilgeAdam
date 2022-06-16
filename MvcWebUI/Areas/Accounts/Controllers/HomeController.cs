@@ -45,6 +45,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Accounts.Controllers
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(ClaimTypes.Role, user.RoleNameDisplay),
+                        new Claim(ClaimTypes.Sid, user.Id.ToString())
                     };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
