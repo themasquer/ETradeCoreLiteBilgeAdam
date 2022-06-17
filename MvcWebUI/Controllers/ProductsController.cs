@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using _038_ETradeCoreLiteBilgeAdam.Settings;
 using DataAccess.Entities;
 using DataAccess.Services.CRUD;
 using Microsoft.AspNetCore.Authorization;
@@ -57,19 +58,72 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(Product product)
+        public IActionResult Create(Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
-                var result = _productService.Add(product);
-                if (result.IsSuccessful)
-                    return RedirectToAction(nameof(Index));
-                ModelState.AddModelError("", result.Message);
+                if (UpdateImage(product, image) == false) // imaj uzantı ve boyut validasyonlarını geçememiş demektir
+                {
+                    ModelState.AddModelError("", $"Image could not be uploaded: Accepted image extensions are {AppSettings.AcceptedImageExtensions} and accepted image maximum length is {AppSettings.AcceptedImageMaximumLength}!");
+                }
+                else
+                {
+                    var result = _productService.Add(product);
+                    if (result.IsSuccessful)
+                        return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", result.Message);
+                }
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name", product.CategoryId);
             ViewBag.Stores = new MultiSelectList(_storeService.GetList(), "Id", "Name", product.StoreIds);
             return View(product);
+        }
+
+        private bool? UpdateImage(Product entity, IFormFile uploadedFile)
+        {
+            #region Image Validation
+            bool? result = null;
+            string uploadedFileName = null, uploadedFileExtension = null;
+            if (uploadedFile != null && uploadedFile.Length > 0) // yüklenen imaj verisi varsa
+            {
+                result = false; // validasyonu geçemedi ilk değer ataması
+                uploadedFileName = uploadedFile.FileName; // asusrog.jpg
+                uploadedFileExtension = Path.GetExtension(uploadedFileName); // .jpg
+                string[] acceptedImageFileExtensions = AppSettings.AcceptedImageExtensions.Split(',');
+                foreach (string acceptedImageFileExtension in acceptedImageFileExtensions)
+                {
+                    if (acceptedImageFileExtension.ToLower() == uploadedFileExtension.ToLower().Trim())
+                    {
+                        result = true; // imaj uzantısı validasyonunu geçti
+                        break;
+                    }
+                }
+                if (result == true) // eğer imaj uzantısı validasyonunu geçtiyse imaj boyutunu valide edelim
+                {
+                    // 1 byte = 8 bits
+                    // 1 kilobyte = 1024 bytes
+                    // 1 megabyte = 1024 kilobytes = 1024 * 1024 bytes = 1.048.576 bytes
+                    double acceptedImageLength = AppSettings.AcceptedImageMaximumLength * Math.Pow(1024, 2); // bytes
+                    if (uploadedFile.Length > acceptedImageLength)
+                        result = false; // imaj boyutu validasyonunu geçemedi
+                }
+            }
+            #endregion
+
+            #region Dosyanın kaydedilmesi
+            if (result == true)
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    uploadedFile.CopyTo(memoryStream);
+                    entity.Image = memoryStream.ToArray();
+                    entity.ImageExtension = uploadedFileExtension;
+                }
+            }
+            #endregion
+
+            return result;
         }
 
         // GET: Products/Edit/5
@@ -93,14 +147,21 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
-                var result = _productService.Update(product);
-                if (result.IsSuccessful)
-                    return RedirectToAction(nameof(Index));
-                ModelState.AddModelError("", result.Message);
+                if (UpdateImage(product, image) == false) // imaj uzantı ve boyut validasyonlarını geçememiş demektir
+                {
+                    ModelState.AddModelError("", $"Image could not be uploaded: Accepted image extensions are {AppSettings.AcceptedImageExtensions} and accepted image maximum length is {AppSettings.AcceptedImageMaximumLength}!");
+                }
+                else
+                {
+                    var result = _productService.Update(product);
+                    if (result.IsSuccessful)
+                        return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", result.Message);
+                }
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             ViewData["CategoryId"] = new SelectList(_categoryService.GetList(), "Id", "Name", product.CategoryId);
@@ -109,9 +170,10 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Products/Delete/5
-        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
+            if (!User.IsInRole("Admin"))
+                return RedirectToAction("Login", "Home", new { area = "Accounts" });
             Product product = _productService.GetItem(id);
             if (product == null)
             {
@@ -123,11 +185,18 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         // POST: Products/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!User.IsInRole("Admin"))
+                return RedirectToAction("Login", "Home", new { area = "Accounts" });
             _productService.Delete(p => p.Id == id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult DeleteImage(int id)
+        {
+            _productService.DeleteImage(id);
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 	}
 }

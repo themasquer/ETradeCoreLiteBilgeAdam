@@ -35,6 +35,12 @@ namespace DataAccess.Entities
 
         public Category? Category { get; set; }
 
+        [Column(TypeName = "image")]
+        public byte[]? Image { get; set; }
+
+        [StringLength(5)]
+        public string? ImageExtension { get; set; }
+
         public List<ProductStore>? ProductStores { get; set; }
     }
 
@@ -59,5 +65,9 @@ namespace DataAccess.Entities
         [NotMapped]
         [DisplayName("Stores")]
         public string? StoreNamesDisplay { get; set; }
+
+        [NotMapped]
+        [DisplayName("Image")]
+        public string? ImageTagSrcDisplay { get; set; }
     }
 }

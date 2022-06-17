@@ -18,6 +18,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Stores
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Store> storeList = _storeService.GetList();

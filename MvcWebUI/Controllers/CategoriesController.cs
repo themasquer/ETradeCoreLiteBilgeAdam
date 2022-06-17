@@ -18,10 +18,11 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // GET: Categories
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Category> categoryList = _categoryService.GetList();
-            return View(categoryList);
+            return View("List", categoryList);
         }
 
         // GET: Categories/Details/5

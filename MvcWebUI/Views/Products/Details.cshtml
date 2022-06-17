@@ -10,7 +10,7 @@
     <partial name="_Details" model="Model" />
 </div>
 <div>
-    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>@:&nbsp;|&nbsp;
     }

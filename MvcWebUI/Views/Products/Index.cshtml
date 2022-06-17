@@ -11,7 +11,7 @@
     <p class="text-success">@TempData["ProductMessage"]</p>
 }
 
-@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+@if (User.IsInRole("Admin"))
 {
     <p>
         <a asp-action="Create">Create New</a>
@@ -35,7 +35,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.CategoryNameDisplay)
             </th>
-            <th></th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.ImageTagSrcDisplay)
+            </th>
+            <th style="width:10%;"></th>
         </tr>
     </thead>
     <tbody>
@@ -63,17 +66,23 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.CategoryNameDisplay)
 				</td>
-				<td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.ImageTagSrcDisplay))
+                    {
+                        <img src="@item.ImageTagSrcDisplay" class="img-thumbnail "/>
+                    }
+                </td>
+				<td style="text-align: right;">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-action="Add" asp-controller="Home" asp-area="Cart" asp-route-productId="@item.Id">Add to Cart</a>
-                        @:&nbsp;|&nbsp;
+                        <br />
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                         if (User.IsInRole("Admin"))
                         {
-                            @:&nbsp;|&nbsp;
+                            <br />
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <text>&nbsp;|&nbsp;</text>
+                            <br />
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
                     }

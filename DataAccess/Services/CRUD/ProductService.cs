@@ -1,10 +1,9 @@
-﻿using AppCore.DataAccess.Services.Bases;
+﻿using AppCore.DataAccess.Results.Bases;
+using AppCore.DataAccess.Services.Bases;
 using AppCore.Results;
-using AppCore.DataAccess.Results.Bases;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using System.Linq.Expressions;
 
 namespace DataAccess.Services.CRUD
@@ -14,6 +13,14 @@ namespace DataAccess.Services.CRUD
         protected ProductServiceBase(Db dbContext) : base(dbContext)
         {
 
+        }
+
+        public void DeleteImage(int id)
+        {
+            var product = _dbContext.Set<Product>().Find(id);
+            product.Image = null;
+            product.ImageExtension = null;
+            base.Update(product);
         }
     }
 
@@ -40,7 +47,10 @@ namespace DataAccess.Services.CRUD
                 UnitPriceDisplay = (p.UnitPrice ?? 0).ToString("C2"),
                 ProductStores = p.ProductStores,
                 StoreNamesDisplay = string.Join("<br />", p.ProductStores.Select(ps => ps.Store.Name + " (" + (ps.Store.IsVirtual ? "Virtual" : "Not Virtual") + ")").ToList()),
-                StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList()
+                StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList(),
+                Image = p.Image,
+                ImageTagSrcDisplay = p.Image != null ? (p.ImageExtension == ".jpg" || p.ImageExtension == ".jpeg" ? "data:image/jpeg;base64," : "data:image/png;base64,") + Convert.ToBase64String(p.Image) : null,
+                ImageExtension = p.ImageExtension
             });
         }
 
@@ -54,6 +64,7 @@ namespace DataAccess.Services.CRUD
             {
                 StoreId = sId
             }).ToList();
+            entity.ImageExtension = entity.ImageExtension?.ToLower();
             return base.Add(entity, save);
         }
 
@@ -75,6 +86,15 @@ namespace DataAccess.Services.CRUD
             {
                 StoreId = sId
             }).ToList();
+            if (entity.Image == null || entity.Image.Length == 0)
+            {
+                entity.Image = product.Image;
+                entity.ImageExtension = product.ImageExtension;
+            }
+            else
+            {
+                entity.ImageExtension = entity.ImageExtension.ToLower();
+            }
             return base.Update(entity, save);
         }
 

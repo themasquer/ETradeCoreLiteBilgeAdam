@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-12">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
@@ -63,6 +63,18 @@
 					<select multiple asp-for="StoreIds" class="form-control" asp-items="ViewBag.Stores"></select>
 					<span asp-validation-for="StoreIds" class="text-danger"></span>
 				</div>
+            </div>
+			<div class="row mb-3">
+                <label asp-for="ImageTagSrcDisplay" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    @if (!string.IsNullOrWhiteSpace(Model.ImageTagSrcDisplay))
+                    {
+                        <img src="@Model.ImageTagSrcDisplay" class="img-fluid" />
+                    }
+                    <input type="file" name="image" class="form-control" accept="@AppSettings.AcceptedImageExtensions" />
+                    <input type="hidden" asp-for="ImageExtension" />
+                    <a asp-action="DeleteImage" asp-route-id="@Model.Id">Delete Image</a>
+                </div>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="row mb-3">

@@ -45,4 +45,13 @@
     <dd class="col-10">
         @Html.Raw(Model.StoreNamesDisplay)
     </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.ImageTagSrcDisplay)
+    </dt>
+    <dd class="col-3">
+        @if (!string.IsNullOrWhiteSpace(Model.ImageTagSrcDisplay))
+        {
+            <img src="@Model.ImageTagSrcDisplay" class="img-fluid " />
+        }
+    </dd>
 </dl>
