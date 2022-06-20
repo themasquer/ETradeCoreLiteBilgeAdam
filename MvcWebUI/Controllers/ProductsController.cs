@@ -88,29 +88,17 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         {
             #region Image Validation
             bool? result = null;
-            string uploadedFileName = null, uploadedFileExtension = null;
+            string uploadedFileExtension = null;
             if (uploadedFile != null && uploadedFile.Length > 0) // yüklenen imaj verisi varsa
             {
-                result = false; // validasyonu geçemedi ilk değer ataması
-                uploadedFileName = uploadedFile.FileName; // asusrog.jpg
-                uploadedFileExtension = Path.GetExtension(uploadedFileName); // .jpg
-                string[] acceptedImageFileExtensions = AppSettings.AcceptedImageExtensions.Split(',');
-                foreach (string acceptedImageFileExtension in acceptedImageFileExtensions)
-                {
-                    if (acceptedImageFileExtension.ToLower() == uploadedFileExtension.ToLower().Trim())
-                    {
-                        result = true; // imaj uzantısı validasyonunu geçti
-                        break;
-                    }
-                }
+                uploadedFileExtension = Path.GetExtension(uploadedFile.FileName);
+                result = FileUtil.CheckFileExtension(uploadedFileExtension, AppSettings.AcceptedImageExtensions).IsSuccessful;
                 if (result == true) // eğer imaj uzantısı validasyonunu geçtiyse imaj boyutunu valide edelim
                 {
                     // 1 byte = 8 bits
                     // 1 kilobyte = 1024 bytes
                     // 1 megabyte = 1024 kilobytes = 1024 * 1024 bytes = 1.048.576 bytes
-                    double acceptedImageLength = AppSettings.AcceptedImageMaximumLength * Math.Pow(1024, 2); // bytes
-                    if (uploadedFile.Length > acceptedImageLength)
-                        result = false; // imaj boyutu validasyonunu geçemedi
+                    result = FileUtil.CheckFileLength(uploadedFile.Length, AppSettings.AcceptedImageMaximumLength).IsSuccessful;
                 }
             }
             #endregion
