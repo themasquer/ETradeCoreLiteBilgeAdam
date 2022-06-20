@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-12">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data" autocomplete="off">
 		@Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
@@ -44,14 +44,14 @@
             <div class="row mb-3">
                 <label asp-for="ExpirationDate" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<input asp-for="ExpirationDate" class="form-control" />
+					<input asp-for="ExpirationDate" class="form-control date" type="text" />
 					<span asp-validation-for="ExpirationDate" class="text-danger"></span>
 				</div>
             </div>
             <div class="row mb-3">
                 <label asp-for="CategoryId" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+					<select asp-for="CategoryId" class="form-control select" asp-items="ViewBag.CategoryId">
 						<option value="">-- Select --</option>
 					</select>
 					<span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -60,7 +60,7 @@
 			<div class="row mb-3">
                 <label asp-for="StoreIds" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<select multiple asp-for="StoreIds" class="form-control" asp-items="ViewBag.Stores"></select>
+					<select multiple asp-for="StoreIds" class="form-control select" asp-items="ViewBag.Stores"></select>
 					<span asp-validation-for="StoreIds" class="text-danger"></span>
 				</div>
             </div>
@@ -90,3 +90,23 @@
     </div>
 </div>
 
+@section Scripts {
+	<link rel="stylesheet" href="/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+    <script src="/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+	<link rel="stylesheet" href="/lib/select2/css/select2.min.css" />
+    <script src="/lib/select2/js/select2.min.js"></script>
+
+	<script>
+		$(function () {
+			$(".date").datepicker({
+				todayBtn: "linked",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+			});
+
+			$(".select").select2();
+		});
+	</script>
+}

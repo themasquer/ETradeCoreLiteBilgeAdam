@@ -183,16 +183,24 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         }
 
         // POST: Products/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult DeleteConfirmed(int id)
+        //{
+        //    if (!User.IsInRole("Admin"))
+        //        return RedirectToAction("Login", "Home", new { area = "Accounts" });
+        //    _productService.Delete(p => p.Id == id);
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteItem(int id)
         {
-            if (!User.IsInRole("Admin"))
-                return RedirectToAction("Login", "Home", new { area = "Accounts" });
             _productService.Delete(p => p.Id == id);
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteImage(int id)
         {
             _productService.DeleteImage(id);
