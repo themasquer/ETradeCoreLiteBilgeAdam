@@ -1,6 +1,7 @@
 ﻿using AppCore.DataAccess.Results.Bases;
 using AppCore.DataAccess.Services.Bases;
 using AppCore.Results;
+using AppCore.Utils;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace DataAccess.Services.CRUD
                 StoreNamesDisplay = string.Join("<br />", p.ProductStores.Select(ps => ps.Store.Name + " (" + (ps.Store.IsVirtual ? "Virtual" : "Not Virtual") + ")").ToList()),
                 StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList(),
                 Image = p.Image,
-                ImageTagSrcDisplay = p.Image != null ? (p.ImageExtension == ".jpg" || p.ImageExtension == ".jpeg" ? "data:image/jpeg;base64," : "data:image/png;base64,") + Convert.ToBase64String(p.Image) : null,
+                ImageTagSrcDisplay = p.Image != null ? FileUtil.GetContentType(p.ImageExtension, true, true) + Convert.ToBase64String(p.Image) : null,
                 ImageExtension = p.ImageExtension
             });
         }

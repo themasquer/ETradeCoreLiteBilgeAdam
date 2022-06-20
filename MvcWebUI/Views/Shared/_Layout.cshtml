@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @AppSettings.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/_038_ETradeCoreLiteBilgeAdam.styles.css" asp-append-version="true" />
 </head>
@@ -12,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@AppSettings.Title</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-shopping-basket"></i> @AppSettings.Title</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,22 +26,22 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Db" asp-action="Seed">Seed Database</a>
                             </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Reports" asp-controller="Home" asp-action="Index">Reports</a>
+                                <a class="nav-link text-dark" asp-area="Reports" asp-controller="Home" asp-action="Index"><i class="fas fa-archive"></i> Reports</a>
                             </li>
                         }
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Domains</a>
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="fas fa-bars"></i> Domains</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index"><i class="fas fa-clipboard-list"></i> Categories</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Stores" asp-action="Index">Stores</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Stores" asp-action="Index"><i class="fas fa-clipboard-list"></i> Stores</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index"><i class="fas fa-clipboard-list"></i> Products</a>
                         </li>
                     </ul>
                     <div class="navbar-text">
@@ -48,24 +49,24 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Cart" asp-controller="Home" asp-action="List">Cart</a>
+                                    <a class="nav-link text-dark" asp-area="Cart" asp-controller="Home" asp-action="List"><i class="fas fa-shopping-cart"></i> Cart</a>
                                 </li>
                                 <li class="nav-item">
                                     <div class="navusernameblack">
-                                        <span>@User.Identity.Name</span>
+                                        <span><i class="fas fa-user"></i> @User.Identity.Name</span>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Register">Register</a>
+                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Register"><i class="far fa-save"></i> Register</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Login">Login</a>
+                                    <a class="nav-link text-dark" asp-area="Accounts" asp-controller="Home" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Login</a>
                                 </li>
                             }
                         </ul>
@@ -87,6 +88,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

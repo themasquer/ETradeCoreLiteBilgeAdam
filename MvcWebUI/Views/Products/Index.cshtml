@@ -4,17 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@ViewData["Title"]</h1>
+<partial name="_Message" />
 
-@if (TempData["ProductMessage"] != null)
+@if (TempData["CartMessage"] != null)
 {
-    <p class="text-success">@TempData["ProductMessage"]</p>
+    <p class="text-success">@TempData["CartMessage"]</p>
 }
 
 @if (User.IsInRole("Admin"))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create" title="Create New"><i class="fas fa-plus"></i></a>
     </p>
 }
 <table id="products" class="display" style="width:100%;">
@@ -69,23 +69,23 @@
                 <td>
                     @if (!string.IsNullOrWhiteSpace(item.ImageTagSrcDisplay))
                     {
-                        <img src="@item.ImageTagSrcDisplay" class="img-thumbnail "/>
+                        <a asp-action="DownloadImage" asp-route-id="@item.Id"><img src="@item.ImageTagSrcDisplay" class="img-thumbnail "/></a>
                     }
                 </td>
 				<td style="text-align: right;">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-action="Add" asp-controller="Home" asp-area="Cart" asp-route-productId="@item.Id">Add to Cart</a>
+                        <a asp-action="Add" asp-controller="Home" asp-area="Cart" asp-route-productId="@item.Id" title="Add to Cart"><i class="fas fa-cart-plus"></i></a>
                         <br />
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" title="Details"><i class="fas fa-info-circle"></i></a>
                         if (User.IsInRole("Admin"))
                         {
                             <br />
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="fas fa-pen-square"></i></a>
                             <br />
 
-                            @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                            <a href="#" onclick="deleteItem(@item.Id);">Delete</a>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="fas fa-trash"></i></a>*@
+                            <a href="#" onclick="deleteItem(@item.Id);" title="Delete"><i class="fas fa-trash"></i></a>
                         }
                     }
                 </td>

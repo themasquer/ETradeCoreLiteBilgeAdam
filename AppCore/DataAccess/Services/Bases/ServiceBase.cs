@@ -11,8 +11,8 @@ namespace AppCore.DataAccess.Services.Bases
     /// </summary>
     public abstract class ServiceBase<TEntity> : IDisposable where TEntity : RecordBase, new()
     {
-        const string _resultMessage = "Changes not saved.";
-
+        const string _errorMessage = "Changes not saved!";
+        
         protected readonly DbContext _dbContext;
 
         protected ServiceBase(DbContext dbContext)
@@ -46,9 +46,9 @@ namespace AppCore.DataAccess.Services.Bases
             if (save)
             {
                 Save();
-                return new SuccessResult();
+                return new SuccessResult("Added successfully.");
             }
-            return new ErrorResult(_resultMessage);
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual Result Update(TEntity entity, bool save = true)
@@ -57,9 +57,9 @@ namespace AppCore.DataAccess.Services.Bases
             if (save)
             {
                 Save();
-                return new SuccessResult();
+                return new SuccessResult("Updated successfully.");
             }
-            return new ErrorResult(_resultMessage);
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual Result Delete(TEntity entity, bool save = true)
@@ -68,9 +68,9 @@ namespace AppCore.DataAccess.Services.Bases
             if (save)
             {
                 Save();
-                return new SuccessResult();
+                return new SuccessResult("Deleted successfully.");
             }
-            return new ErrorResult(_resultMessage);
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual Result Delete(Expression<Func<TEntity, bool>> predicate, bool save = true)
@@ -83,9 +83,9 @@ namespace AppCore.DataAccess.Services.Bases
             if (save)
             {
                 Save();
-                return new SuccessResult();
+                return new SuccessResult("Deleted successfully.");
             }
-            return new ErrorResult(_resultMessage);
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual int Save()

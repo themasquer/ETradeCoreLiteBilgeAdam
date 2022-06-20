@@ -62,3 +62,7 @@ a.acategory {
     a.acategory:hover {
         color: #ff006e;
     }
+
+a {
+    color: black;
+}

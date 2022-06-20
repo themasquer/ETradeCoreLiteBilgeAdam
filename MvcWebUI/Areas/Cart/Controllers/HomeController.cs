@@ -35,7 +35,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Areas.Cart.Controllers
             };
             cart.Add(item);
             SetSession(cart);
-            TempData["ProductMessage"] = "Product added to cart.";
+            TempData["CartMessage"] = "Product added to cart.";
             return RedirectToAction("Index", "Products", new { area = "" });
         }
 

@@ -24,7 +24,7 @@
 					<label asp-for="Filter.CategoryId"></label>
 				</div>
 				<div class="col-4">
-					<select asp-for="Filter.CategoryId" asp-items="Model.Categories" class="form-control input">
+					<select asp-for="Filter.CategoryId" asp-items="Model.Categories" class="form-control input select">
 						<option value="">-- All --</option>
 					</select>
 				</div>
@@ -32,7 +32,7 @@
 					<label asp-for="Filter.StoreIds"></label>
 				</div>
 				<div class="col-4">
-					<select multiple asp-for="Filter.StoreIds" asp-items="Model.Stores" class="form-control input"></select>
+					<select multiple asp-for="Filter.StoreIds" asp-items="Model.Stores" class="form-control input select"></select>
 				</div>
 			</div>
 			<div class="row" style="padding-top: 30px;">
@@ -51,9 +51,9 @@
 				</div>
 				<div class="col-4">
 					<div class="input-group">
-						<input asp-for="Filter.ExpirationDateMinimum" class="form-control expirationdate input" />
+						<input asp-for="Filter.ExpirationDateMinimum" class="form-control expirationdate input date" type="text" />
 						<span class="input-group-text">-</span>
-						<input asp-for="Filter.ExpirationDateMaximum" class="form-control expirationdate input" />
+						<input asp-for="Filter.ExpirationDateMaximum" class="form-control expirationdate input date" type="text" />
 					</div>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 
 			@if (Model.Page.TotalRecordsCount > 0)
 			{
-				<p class="bg-success text-white">@Model.Page.TotalRecordsCount records found</p>
+				<p class="bg-success text-white">@Model.Page.TotalRecordsCount record(s) found</p>
 				<div class="row" style="padding-bottom: 15px;">
 					<div class="col-1">
 						<label>Page</label>
@@ -167,6 +167,10 @@
 </div>
 
 @section Scripts {
+	<partial name="_Date" />
+
+	<partial name="_Select" />
+
 	<script>
 		$(function() {
 			$(".input").change(function() {

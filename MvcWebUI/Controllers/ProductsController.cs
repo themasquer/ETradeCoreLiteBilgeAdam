@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using _038_ETradeCoreLiteBilgeAdam.Settings;
+using AppCore.Utils;
 using DataAccess.Entities;
 using DataAccess.Services.CRUD;
 using Microsoft.AspNetCore.Authorization;
@@ -70,7 +71,10 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 {
                     var result = _productService.Add(product);
                     if (result.IsSuccessful)
+                    {
+                        TempData["Message"] = result.Message;
                         return RedirectToAction(nameof(Index));
+                    }
                     ModelState.AddModelError("", result.Message);
                 }
             }
@@ -159,7 +163,10 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 {
                     var result = _productService.Update(product);
                     if (result.IsSuccessful)
+                    {
+                        TempData["Message"] = result.Message;
                         return RedirectToAction(nameof(Index));
+                    }
                     ModelState.AddModelError("", result.Message);
                 }
             }
@@ -196,7 +203,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteItem(int id)
         {
-            _productService.Delete(p => p.Id == id);
+            TempData["Message"] = _productService.Delete(p => p.Id == id).Message;
             return RedirectToAction(nameof(Index));
         }
 
@@ -206,5 +213,17 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
             _productService.DeleteImage(id);
             return RedirectToAction(nameof(Details), new { id = id });
         }
-	}
+
+        [AllowAnonymous]
+        public IActionResult DownloadImage(int id)
+        {
+            Product product = _productService.GetItem(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            string fileName = "Product" + product.ImageExtension;
+            return File(product.Image, FileUtil.GetContentType(product.ImageExtension), fileName);
+        }
+    }
 }
