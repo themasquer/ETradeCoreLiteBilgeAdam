@@ -5,30 +5,46 @@ namespace AppCore.Utils
 {
     public static class FileUtil
     {
-        public static string GetContentType(string fileExtension, bool includeData = false, bool includeBase64 = false)
+        private static Dictionary<string, string> _mimeTypes;
+
+        static FileUtil()
         {
-            string contentType = "";
-            if (fileExtension == ".jpg" || fileExtension == ".jpeg")
-                contentType = "image/jpeg";
-            else if (fileExtension == ".png")
-                contentType = "image/png";
-            if (contentType != "")
+            _mimeTypes = new Dictionary<string, string>
             {
-                if (includeData)
-                    contentType = "data:" + contentType;
-                if (includeBase64)
-                    contentType = contentType + ";base64,";
-            }
+                { ".txt", "text/plain" },
+                { ".pdf", "application/pdf" },
+                { ".doc", "application/vnd.ms-word" },
+                { ".docx", "application/vnd.ms-word" },
+                { ".xls", "application/vnd.ms-excel" },
+                { ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+                { ".csv", "text/csv" },
+                { ".png", "image/png" },
+                { ".jpg", "image/jpeg" },
+                { ".jpeg", "image/jpeg" },
+                { ".gif", "image/gif" }
+            };
+        }
+
+        public static string GetContentType(string fileName, bool includeData = false, bool includeBase64 = false)
+        {
+            string contentType;
+            string fileExtension = Path.GetExtension(fileName);
+            contentType = _mimeTypes[fileExtension];
+            if (includeData)
+                contentType = "data:" + contentType;
+            if (includeBase64)
+                contentType = contentType + ";base64,";
             return contentType;
         }
 
-        public static Result CheckFileExtension(string fileExtension, string acceptedFileExtensions, char acceptedFileExtensionsSeperator = ',')
+        public static Result CheckFileExtension(string fileName, string acceptedFileExtensions, char acceptedFileExtensionsSeperator = ',')
         {
             Result result = new ErrorResult("Invalid file extension!");
+            string fileExtension = Path.GetExtension(fileName);
             string[] acceptedFileExtensionsArray = acceptedFileExtensions.Split(acceptedFileExtensionsSeperator);
             foreach (string acceptedFileExtensionsItem in acceptedFileExtensionsArray)
             {
-                if (acceptedFileExtensionsItem.ToLower().Trim() == fileExtension.ToLower().Trim())
+                if (acceptedFileExtensionsItem.Trim().Equals(fileExtension.Trim(), StringComparison.OrdinalIgnoreCase))
                 {
                     result = new SuccessResult("Valid file extension.");
                     break;

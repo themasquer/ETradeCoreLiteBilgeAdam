@@ -88,11 +88,9 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
         {
             #region Image Validation
             bool? result = null;
-            string uploadedFileExtension = null;
             if (uploadedFile != null && uploadedFile.Length > 0) // yüklenen imaj verisi varsa
             {
-                uploadedFileExtension = Path.GetExtension(uploadedFile.FileName);
-                result = FileUtil.CheckFileExtension(uploadedFileExtension, AppSettings.AcceptedImageExtensions).IsSuccessful;
+                result = FileUtil.CheckFileExtension(uploadedFile.FileName, AppSettings.AcceptedImageExtensions).IsSuccessful;
                 if (result == true) // eğer imaj uzantısı validasyonunu geçtiyse imaj boyutunu valide edelim
                 {
                     // 1 byte = 8 bits
@@ -110,7 +108,7 @@ namespace _038_ETradeCoreLiteBilgeAdam.Controllers
                 {
                     uploadedFile.CopyTo(memoryStream);
                     entity.Image = memoryStream.ToArray();
-                    entity.ImageExtension = uploadedFileExtension;
+                    entity.ImageExtension = Path.GetExtension(uploadedFile.FileName);
                 }
             }
             #endregion
