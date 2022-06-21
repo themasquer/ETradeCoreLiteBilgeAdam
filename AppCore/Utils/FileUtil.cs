@@ -53,7 +53,7 @@ namespace AppCore.Utils
             return result;
         }
 
-        public static Result CheckFileLength(double fileLengthInBytes, double acceptedFileLengthInMegaBytes = 1)
+        public static Result CheckFileLength(double fileLengthInBytes, double acceptedFileLengthInMegaBytes)
         {
             if (fileLengthInBytes > acceptedFileLengthInMegaBytes * Math.Pow(1024, 2))
                 return new ErrorResult("Invalid file length!");
