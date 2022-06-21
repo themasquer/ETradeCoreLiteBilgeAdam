@@ -25,10 +25,10 @@ namespace AppCore.Utils
             };
         }
 
-        public static string GetContentType(string fileName, bool includeData = false, bool includeBase64 = false)
+        public static string GetContentType(string fileNameOrExtension, bool includeData = false, bool includeBase64 = false)
         {
             string contentType;
-            string fileExtension = Path.GetExtension(fileName);
+            string fileExtension = Path.GetExtension(fileNameOrExtension);
             contentType = _mimeTypes[fileExtension];
             if (includeData)
                 contentType = "data:" + contentType;
