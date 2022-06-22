@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 
 namespace _038_ETradeCoreLiteBilgeAdam.ViewComponents
 {
-    public class CategoriesViewComponent : ViewComponent
+    public class QuickSearchViewComponent : ViewComponent
     {
         private readonly CategoryServiceBase _categoryService;
 
-        public CategoriesViewComponent(CategoryServiceBase categoryService)
+        public QuickSearchViewComponent(CategoryServiceBase categoryService)
         {
             _categoryService = categoryService;
         }
