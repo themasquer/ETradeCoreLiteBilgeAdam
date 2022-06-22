@@ -9,6 +9,7 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Localization
 List<CultureInfo> cultures = new List<CultureInfo>()
 {
     new CultureInfo("en-US")
@@ -20,7 +21,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = cultures;
     options.SupportedUICultures = cultures;
 });
-
+#endregion
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -55,12 +56,14 @@ section.Bind(new AppSettings());
 
 var app = builder.Build();
 
+#region Localization
 app.UseRequestLocalization(new RequestLocalizationOptions()
 {
     DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name),
     SupportedCultures = cultures,
     SupportedUICultures = cultures,
 });
+#endregion
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
