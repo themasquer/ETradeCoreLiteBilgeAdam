@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DataAccess.Entities
 {
@@ -15,6 +16,7 @@ namespace DataAccess.Entities
         [DisplayName("Virtual")]
         public bool IsVirtual { get; set; }
 
+        [JsonIgnore]
         public List<ProductStore>? ProductStores { get; set; }
     }
 

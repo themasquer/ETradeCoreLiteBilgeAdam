@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DataAccess.Entities
 {
@@ -33,14 +34,18 @@ namespace DataAccess.Entities
         [DisplayName("Category")]
         public int? CategoryId { get; set; }
 
+        [JsonIgnore]
         public Category? Category { get; set; }
 
         [Column(TypeName = "image")]
+        [JsonIgnore]
         public byte[]? Image { get; set; }
 
         [StringLength(5)]
+        [JsonIgnore]
         public string? ImageExtension { get; set; }
 
+        [JsonIgnore]
         public List<ProductStore>? ProductStores { get; set; }
     }
 
@@ -48,10 +53,12 @@ namespace DataAccess.Entities
     {
         [NotMapped]
         [DisplayName("Unit Price")]
+        [JsonIgnore]
         public string? UnitPriceDisplay { get; set; }
 
         [NotMapped]
         [DisplayName("Expiration Date")]
+        [JsonIgnore]
         public string? ExpirationDateDisplay { get; set; }
 
         [NotMapped]
@@ -68,6 +75,7 @@ namespace DataAccess.Entities
 
         [NotMapped]
         [DisplayName("Image")]
+        [JsonIgnore]
         public string? ImageTagSrcDisplay { get; set; }
     }
 }

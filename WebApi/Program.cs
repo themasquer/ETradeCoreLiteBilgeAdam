@@ -26,6 +26,7 @@ builder.Services.AddDbContext<Db>(options => options.UseSqlServer(builder.Config
 
 builder.Services.AddScoped<CategoryServiceBase, CategoryService>();
 builder.Services.AddScoped<ProductServiceBase, ProductService>();
+builder.Services.AddScoped<StoreServiceBase, StoreService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

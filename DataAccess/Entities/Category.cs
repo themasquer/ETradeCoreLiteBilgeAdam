@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DataAccess.Entities
 {
@@ -16,6 +17,7 @@ namespace DataAccess.Entities
         [StringLength(500, ErrorMessage = "{0} must be maximum {1} characters!")]
         public string? Description { get; set; }
 
+        [JsonIgnore]
         public List<Product>? Products { get; set; }
     }
 

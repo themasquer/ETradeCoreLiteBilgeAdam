@@ -65,7 +65,7 @@
 					<input asp-for="Filter.ProductName" class="form-control input" />
 				</div>
 			</div>
-			<input asp-for="Filter.ProductOrStoreName" type="hidden" />
+			<input asp-for="Filter.ProductOrStoreName" type="hidden" id="productorstorename" />
 			<hr />
 			<div class="row" style="padding-bottom: 15px;">
 				<div class="col-12">
@@ -181,6 +181,9 @@
 			});
 			$("#search").click(function(event) {
 				event.preventDefault();
+				$("#pagenumber").val("1");
+				$("#recordsperpagecount").val("5");
+				$("#productorstorename").val("");
 				$("#form").submit();
 			});
 			$("#pagenumber").change(function() {
