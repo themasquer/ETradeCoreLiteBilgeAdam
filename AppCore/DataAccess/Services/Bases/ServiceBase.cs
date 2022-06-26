@@ -103,6 +103,7 @@ namespace AppCore.DataAccess.Services.Bases
         public void Dispose()
         {
             _dbContext?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
